@@ -1,5 +1,7 @@
 # Apex Football
 
+## Tugas 7
+
 ### Jelaskan apa itu widget tree pada Flutter dan bagaimana hubungan parent-child (induk-anak) bekerja antar widget.
 
 Widget tree adalah struktur data yang merepresentasikan widget pada flutter (seperti struktur data tree). Dengan fungsi untuk merepresentasikan visual dari UI. Setiap widget dibangun dalam widget tree berdasarkan hierarki. Parent widget berfungsi untuk mengatur atribut terkait child widgetsnya (bisa lebih dari satu child). Biasanya atribut yang diatur adalah terkait posisi penempatan dan ukuran.
