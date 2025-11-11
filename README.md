@@ -103,3 +103,39 @@ Setiap widget tidak menyimpan posisinya dalam tree secara eksplisit. Sehingga ji
 Building time di flutter umumnya relatif lama. Akan tedious jika harus menunggu build time jika hanya perlu tes bagaimana UI sekarang. Maka Hot Reload dibuat agar program dikompilasi ulang (hanya pada kode baru)  sehingga perbaruan kode dapat tampil pada program. Perbedaan utama dengan hot restart adalah Hot Reload tidak mereset State suatu StatefulWidget. Perubahan class jadi enumerate data dan sebaliknya juga tidak akan diubah oleh hot reload, sedangkan hot restart dalam melakukannya. Hot reload lebih cepat dari Hot restart, namun keduanya masih jauh lebih cepat daripada build kodenya dari awal.
 
 [Referensi](https://www.geeksforgeeks.org/flutter/difference-between-hot-reload-and-hot-restart-in-flutter/)
+
+## Tugas 8
+
+### Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
+
+Navigator mengatur stack layar pada program dimana stack paling atas yang ditampilkan. Misalkan sekarang stacknya (dengan A stack paling bawah)
+/A
+/B
+Dan ingin menambahkan layar baru C, Navigator.push() akan sederhana menambahkan layar baru menjadi berikut
+/A
+/B
+/C
+Perhatikan layar sebelumnya juga masih aktif, jika user gunakan tombol back pada mobile device. Maka akan kembali ke halaman B (melakukan pop pada stack).
+Sedangkan Navigator.pushReplacement() akan menyebabkan status layar berikut
+/A
+/C
+Dimana layar B (top of stack) digantikan layar baru C. 
+
+pushReplacement baik digunakan jika tidak diperlukan navigasi ke halaman sebelumnya, biasanya ini cocok untuk halaman - halaman utama yang memang tidak perlu ada halaman sebelumnya. Dalam tugas saya, layar Add Product dan Show Products berfungsi sebagai halaman utama, maka tombol drawer ke halaman tersebut sebaiknya gunakan saja pushReplacement agar overwrite layar sebelumnya. 
+
+push baik digunakan untuk subhalaman pada setiap halaman utama. Contoh jika pada halaman Show Product, diperlukan tampil halaman baru sementara untuk detail setiap produk, maka push memastikan user dapat cepat kembali ke halaman utama (Show Product).
+
+### Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
+
+Definisi "struktur halaman yang konsisten" umumnya refer pada tampilan visual yang tidak berbeda drastis antar satu halaman dengan halaman lainnya. Scaffold berfungsi agar setiap halaman mengikuti struktur basic yang mudah digunakan. Scaffold dapat mengandung AppBar yang berfungsi sebagai header atau judul pada halaman sehingga memudahkan user mengetahui sekarang sedang menggunakan aplikasi saya. Drawer berfungsi sebagai tab navigasi yang mudah dan intuitif digunakan. Dengan menggunakan Scaffold untuk setiap halaman utama aplikasi dimana terdiri dari AppBar sebagai judul aplikasi dan Drawer sebagai alat navigasi antar halaman, maka setiap struktur halaman menjadi konsisten pada seluruh aplikasi.
+
+### Dalam konteks desain antarmuka, apa kelebihan menggunakan layout widget seperti Padding, SingleChildScrollView, dan ListView saat menampilkan elemen-elemen form? Berikan contoh penggunaannya dari aplikasi kamu.
+
+Sesuai namanya layout widget membantu simplifikasi implementasi memposisikan widgets sesuai kebutuhan. Dalam konteks elemen form, Padding berfungsi memberikan spasi kecil antar ujung layar sehingga field lebih enak dilihat. Lalu SingleChildScrollView berfungsi agar saat field diperbanyak, pengguna bisa "mengscroll" layarnya. Saya tidak menggunakan ListView dalam Form, namun dapat digunakan untuk pemilihan kategori dengan menyebarkan opsi sebagai ListItem. ListView sendiri digunakan untuk Drawer untuk menampilkan setiap tombol seperti list.     
+
+[Referensi](https://docs.flutter.dev/ui/widgets/layout)
+
+### Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
+
+Saya sesuaikan dengan tema pada tugas web Apex Football sebelumnya dengan color scheme abu - abu dan keputihan. saya buat sesuai dengan cara mengset color scheme default pada main.dart (Primary color, onPrimary color, etc). Sehingga tidak perlu mengetik semua warna elemen.
+
