@@ -109,16 +109,26 @@ Building time di flutter umumnya relatif lama. Akan tedious jika harus menunggu 
 ### Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement() pada Flutter. Dalam kasus apa sebaiknya masing-masing digunakan pada aplikasi Football Shop kamu?
 
 Navigator mengatur stack layar pada program dimana stack paling atas yang ditampilkan. Misalkan sekarang stacknya (dengan A stack paling bawah)
+
 /A
+
 /B
+
 Dan ingin menambahkan layar baru C, Navigator.push() akan sederhana menambahkan layar baru menjadi berikut
+
 /A
+
 /B
+
 /C
+
 Perhatikan layar sebelumnya juga masih aktif, jika user gunakan tombol back pada mobile device. Maka akan kembali ke halaman B (melakukan pop pada stack).
 Sedangkan Navigator.pushReplacement() akan menyebabkan status layar berikut
+
 /A
+
 /C
+
 Dimana layar B (top of stack) digantikan layar baru C. 
 
 pushReplacement baik digunakan jika tidak diperlukan navigasi ke halaman sebelumnya, biasanya ini cocok untuk halaman - halaman utama yang memang tidak perlu ada halaman sebelumnya. Dalam tugas saya, layar Add Product dan Show Products berfungsi sebagai halaman utama, maka tombol drawer ke halaman tersebut sebaiknya gunakan saja pushReplacement agar overwrite layar sebelumnya. 
