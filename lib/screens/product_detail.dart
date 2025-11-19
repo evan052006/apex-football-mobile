@@ -104,13 +104,6 @@ class ProductDetailPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Text(
-                        "PLACEHOLDER DATE",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
-                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -146,7 +139,7 @@ class ProductDetailPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                  child: Text("Logout", style: TextStyle(color: Colors.white),))
+                  child: Text("Back", style: TextStyle(color: Colors.white),))
                 ],
               ),
             ),

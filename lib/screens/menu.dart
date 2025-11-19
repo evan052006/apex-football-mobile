@@ -2,6 +2,7 @@ import 'package:apex_football/screens/product_creation_form.dart';
 import 'package:flutter/material.dart';
 import 'package:apex_football/widgets/item_card.dart';
 import 'package:apex_football/widgets/info_card.dart';
+import 'package:apex_football/screens/product_list.dart';
 import 'package:apex_football/widgets/left_drawer.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -16,7 +17,7 @@ class MyHomePage extends StatelessWidget {
         content: const Text('Kamu telah menekan tombol All Products'),
       ),
       Colors.blue,
-      (context) => MyHomePage(),
+      (context) => (ProductListPage()),
     ),
     ItemHomepage(
       "My Products",
@@ -25,7 +26,7 @@ class MyHomePage extends StatelessWidget {
         content: const Text('Kamu telah menekan tombol My Products'),
       ),
       Colors.green,
-      (context) => MyHomePage(),
+      (context) => ProductListPage(),
     ),
     ItemHomepage(
       "Create Product",

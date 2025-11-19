@@ -15,8 +15,7 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _NewsEntryListPageState extends State<ProductListPage> {
-  String uid = "";
-  bool unFiltered = false;
+  bool unFiltered = true;
   Future<List<ProductEntry>> fetchNews(CookieRequest request, int id) async {
     if (unFiltered || id == -1) {
       final response = await request.get('https://christopher-evan41-apexfootball.pbp.cs.ui.ac.id/json');
