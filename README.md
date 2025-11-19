@@ -211,4 +211,40 @@ Dalam konteks login / register / logout, input pertama menggunakan input field f
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
 
-Pertama membuat 
+
+#### Memastikan deployment proyek tugas Django kamu telah berjalan dengan baik.
+Mengubah Django field thumbnail menjadi non nullable tapi bisa blank agar lebih mudah prosesnya di flutter.
+
+#### Mengimplementasikan fitur registrasi akun pada proyek tugas Flutter.
+Pertama dibuat view register khusus api yang akan membuat user baru dan mengembalikan JSON untuk menampilkan statusnya. Lalu pada flutter dibuat page register yang berisi input form field untuk divalidasi level client, dan kemudian menggunakan library http pbp untuk melakukan akses pada api endpoint tersebut. 
+
+#### Membuat halaman login pada proyek tugas Flutter.
+Secara sederhana menggunakan input form field seperti sebelumnya dan melakukan fetch pada server.
+
+#### Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter.
+Sudah dijelaskan pada poin sebelumnya.
+
+#### Membuat model kustom sesuai dengan proyek aplikasi Django.
+menggunakan https://app.quicktype.io/ lalu memasukkan sample data jsonnya
+
+#### Membuat halaman yang berisi daftar semua item yang terdapat pada endpoint JSON di Django yang telah kamu deploy.
+menggunakan future builder sehingga bisa async (fungsi futurenya simply mengembalikan objek produknya). Lalu ditampilkan sebagai listview
+
+#### Tampilkan name, price, description, thumbnail, category, dan is_featured dari masing-masing item pada halaman ini (Dapat disesuaikan dengan field yang kalian buat sebelumnya).
+Dari snapshot array maka langsung di tampilkan dengan widgetnya masing masing
+
+#### Membuat halaman detail untuk setiap item yang terdapat pada halaman daftar Item.
+Membuat wwidget baru yang menerima model yang diperlukan, (sehingga lebih mudah integrasinya)
+
+#### Halaman ini dapat diakses dengan menekan salah satu card item pada halaman daftar Item.
+Membuat fungsi ontap yang redirection ke widget detailnya (pass class modelnya)
+
+#### Tampilkan seluruh atribut pada model item kamu pada halaman ini.
+Gunakan widget yang diperlukan saja.
+
+#### Tambahkan tombol untuk kembali ke halaman daftar item.
+Tambahkan tombol yang pop navigatornya
+
+### Melakukan filter pada halaman daftar item dengan hanya menampilkan item yang terasosiasi dengan pengguna yang login.
+Sudah dijelaskan pada poin sebelumnya.
+

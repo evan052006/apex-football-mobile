@@ -141,6 +141,12 @@ class ProductDetailPage extends StatelessWidget {
                     textAlign: TextAlign.justify,
                   ),
                   const SizedBox(height: 24),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  child: Text("Logout", style: TextStyle(color: Colors.white),))
                 ],
               ),
             ),
