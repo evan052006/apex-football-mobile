@@ -1,12 +1,16 @@
+import 'package:apex_football/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:apex_football/screens/menu.dart';
+import 'package:apex_football/screens/product_list.dart';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:apex_football/screens/product_creation_form.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Drawer(
       child: ListView(
         children: [
@@ -64,8 +68,37 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
+                MaterialPageRoute(builder: (context) => ProductListPage()),
               );
+            },
+          ),
+           ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            // ListTile yang halaman view newsnya belum diimplementasikan
+            // Hanya akan redirect ke home
+            onTap: () async {
+              final response = await request.logout(
+              "https://christopher-evan41-apexfootball.pbp.cs.ui.ac.id/logout_api/");
+              String message = response["message"];
+              if (context.mounted) {
+                  if (response['status']) {
+                      String uname = response["username"];
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("$message See you again, $uname."),
+                      ));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                  } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(message),
+                          ),
+                      );
+                  }
+              }
             },
           ),
         ],

@@ -132,7 +132,32 @@ Sedangkan Navigator.pushReplacement() akan menyebabkan status layar berikut
 Dimana layar B (top of stack) digantikan layar baru C. 
 
 pushReplacement baik digunakan jika tidak diperlukan navigasi ke halaman sebelumnya, biasanya ini cocok untuk halaman - halaman utama yang memang tidak perlu ada halaman sebelumnya. Dalam tugas saya, layar Add Product dan Show Products berfungsi sebagai halaman utama, maka tombol drawer ke halaman tersebut sebaiknya gunakan saja pushReplacement agar overwrite layar sebelumnya. 
-
+(Latihan 2024-25) Seorang turis yang saat ini sedang berada di Jakarta ingin pergi
+mengunjungi kota Honolulu menggunakan maskapai Cheapest Airways yang merupakan
+maskapai favoritnya. Turis tersebut akhirnya mengunjungi sebuah agen perjalanan
+terkemuka di kota Jakarta. Sesampainya di kantor agen perjalanan tersebut, turis tersebut
+diberikan daftar penerbangan yang dilayani oleh maskapai Cheapest Airways sebagai
+berikut:
+● Jakarta – Singapore ($100)
+● Jakarta – Denpasar ($140)
+● Denpasar – Manila ($40)
+● Denpasar – Bangkok ($80)
+● Singapore – Bangkok ($120)
+● Manila – Bangkok ($70)
+● Singapore – Hongkong ($160)
+● Bangkok – Tokyo ($60)
+● Manila – Kyoto ($110)
+● Kyoto – Tokyo ($30)
+● Hongkong – Honolulu ($90)
+● Tokyo – Honolulu ($50)
+● Kyoto – Honolulu ($150)
+(*) Catatan: Daftar penerbangan yang dilayani oleh maskapai Cheapest Airways diatas
+berlaku dua arah.
+a. Gambarkan rute penerbangan yang dilayani oleh maskapai Cheapest Airways
+tersebut ke dalam representasi struktur data graph (logical).
+b. Berapakah biaya termurah yang harus dikeluarkan oleh turis tersebut untuk pergi ke
+kota tujuannya? (Gunakan Dijstra Algorithm, buat predecesor Tablenya)
+c. Bagaimana rute penerbangan dengan biaya termurah tersebut
 push baik digunakan untuk subhalaman pada setiap halaman utama. Contoh jika pada halaman Show Product, diperlukan tampil halaman baru sementara untuk detail setiap produk, maka push memastikan user dapat cepat kembali ke halaman utama (Show Product).
 
 ### Bagaimana kamu memanfaatkan hierarchy widget seperti Scaffold, AppBar, dan Drawer untuk membangun struktur halaman yang konsisten di seluruh aplikasi?
@@ -149,3 +174,41 @@ Sesuai namanya layout widget membantu simplifikasi implementasi memposisikan wid
 
 Saya sesuaikan dengan tema pada tugas web Apex Football sebelumnya dengan color scheme abu - abu dan keputihan. saya buat sesuai dengan cara mengset color scheme default pada main.dart (Primary color, onPrimary color, etc). Sehingga tidak perlu mengetik semua warna elemen.
 
+## Tugas 9
+
+### Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)?
+Tanpa model pada flutter, kita harus manual membuat dan memproses field setiap model. Hal ini menyulitkan diri dalam segi maintainability. Selanjutnya dengan model kita dapat membuat kontrol validasi tipe dan null-safety yang modular (setiap kali memproses objek, dijamin aplikasi akan melemparkan error jika fieldnya tidak legal). Jika langsung pakai Map<String, dynamic>, tipe data setiap field tidak terkontrol (menggunakan dynamic type), sehingga menjadi lebih mudah terkena error validasi data dan null pointer errors.
+
+ ### Apa fungsi package http dan CookieRequest dalam tugas ini? Jelaskan perbedaan peran http vs CookieRequest.
+
+http adalah library bawaan dari flutter yang berfungsi menghandle http request dan response secara primitif. Sedangkan CookieRequest adalah class yang bertugas maintain header dan cookie suatu http session bagaikan browser. CookieRequest juga handle autentikasi dan memiliki fungsi async bawaan berdasarkan http dengan tujuan memudahkan development.
+[Referensi](https://github.com/pbp-fasilkom-ui/pbp_django_auth/blob/main/lib/pbp_django_auth.dart)
+
+### Jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+CookieRequest juga menyimpan cookie yang dibutuhkan agar Django mengenal sessionid suatu user. Anggapnya seperti kita perlu membuat browser, jika ada banyak window browser (asumsi same user) seharusnya semua window tersebut menggunakan http cookie yang sama. Dalam flutter, setiap window bagaikan komponen widget, dimana kita membutuhkan setiap komponen share the same cookie.
+[Referensi](https://github.com/pbp-fasilkom-ui/pbp_django_auth/blob/main/lib/pbp_django_auth.dart)
+
+
+### Jelaskan konfigurasi konektivitas yang diperlukan agar Flutter dapat berkomunikasi dengan Django. Mengapa kita perlu menambahkan 10.0.2.2 pada ALLOWED_HOSTS, mengaktifkan CORS dan pengaturan SameSite/cookie, dan menambahkan izin akses internet di Android? Apa yang akan terjadi jika konfigurasi tersebut tidak dilakukan dengan benar?
+Kita perlu menambahkan 10.0.2.2 karena ip pada android emulator tidak langsung terhubung pada localhost. Ini berfungsi agar emulation pada androidnya lebih "virtualised" atau "terbungkus", sehingga localhost pada android benar - benar mereferensi localhost device tersebut. Jika tidak dilakukan, android tidak bisa akses endpoint server djangonya (bagaikan linknya tidak exist).
+
+Penambahan izin akses jelas dilakukan untuk kepentingan keamanan dan privasi, majoritas perangkat lunak ponsel perlu eksplisit bilang akses yang diperlukan agar dapat tertampil jelas pada user bahwa app kita melakukan koneksi internet. Jika tidak dilakukan maka aktivitas terkait network akan gagal (usually silently) tergantung sistem operasinya.
+
+CORS stands for Cross-Origin Resource Sharing, yang memperbolehkan suatu situs mendapatkan data dari situs lainnya lewat API dan sebagainya. CORS pada Django defaultnya hanya akan menerima jika originnya sama (sehingga prevent hal seperti CSRF attack). Namun dalam kasus tugas pbp, CORS cenderung mempersulit development awal karena harus memastikan mengset setiap external API yang digunakan. Maka pada Django disetting pada tugas CORS_ALLOW_ALL_ORIGINS = True dan CORS_ALLOW_CREDENTIALS = True agar link dapat diakses. Selanjutnya di setting CSRF_COOKIE_SECURE = True dan SESSION_COOKIE_SECURE = True agar Django langsung menandakan csrf cookie sudah otomatis aman. CSRF_COOKIE_SAMESITE = 'None' dan SESSION_COOKIE_SAMESITE = 'None' agar http library kita tidak otomatis melakukan pengecekan keamanan terkait CSRF.
+
+[CSRF samesite](https://owasp.org/www-community/SameSite)
+[CORS Reference](https://aws.amazon.com/what-is/cross-origin-resource-sharing/)
+[Endpoint Reference](https://stackoverflow.com/questions/76300572/how-to-connect-localhost-django-rest-api-to-android-emulator)
+
+
+### Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+Karena filtering saya dilakukan pada flutter maka saya perlu membuat global provider bernama uid provider yang menyetor uid user django. Saya gunakan MultiProvider dalam main.dart untuk menggunakan multiple provider (untuk cookie request dan juga uid). Berikutnya kedua provider dibaca pada halaman product entry list, CookieRequest akan melakukan low level fetching via library http, kemudian Django akan memproses request tersebut dan mengembalikan JSONResponse yang sesuai. Lalu mengembalikan responsenya, lalu dengan class dari quicktype, akan otomatis diproses menjadi data type ProductEntry. Jika filtering adalah all maka secara sederhana ditampilkan setiap entry sebagai card, namun jika ada filter, hanya akan ditampilkan produk yang uidnya sesuai dengan uid yang sedang logged in sekarang.
+
+
+### Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+Dalam konteks login / register / logout, input pertama menggunakan input field form dari flutter. Dari input field ini dilakukan validasi input sederhana seperti cek apakah kosong atau tidak. Setelah field tervalidasi, dengan CookieRequest provider akan melakukan request http pada server (dengan mengirimkan form data username dan password). Lalu setelah diterima django, akan diproses dan mengembalikan JSONResponse yang menjelaskan apakah autentikasinya gagal atau berhasil dan ditampilkan pada aplikasi.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+
+Pertama membuat 
